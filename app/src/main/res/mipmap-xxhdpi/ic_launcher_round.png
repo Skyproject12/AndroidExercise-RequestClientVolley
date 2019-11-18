@@ -1,0 +1,228 @@
+package org.d3ifcool.nongkikuy.Preview.Main.Fragment.Akun;
+
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+
+import com.facebook.login.LoginManager;
+import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
+
+import org.d3ifcool.nongkikuy.BuildConfig;
+import org.d3ifcool.nongkikuy.Preview.DetailProfile.DetailProfilActivity;
+import org.d3ifcool.nongkikuy.Preview.HelpCenter.PusatBantuanActivity;
+import org.d3ifcool.nongkikuy.Preview.Login.LoginActivity;
+import org.d3ifcool.nongkikuy.Preview.Main.MainActivity;
+import org.d3ifcool.nongkikuy.Preview.SettingAccountPengguna.SettingAccountPenggunaActivity;
+import org.d3ifcool.nongkikuy.Preview.SettingApplication.PengaturanAplikasiActivity;
+import org.d3ifcool.nongkikuy.R;
+import org.d3ifcool.nongkikuy.Util.Static;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class AkunFragment extends Fragment {
+
+    TextView textNama;
+    TextView textAsal;
+    private View mView;
+    private ConstraintLayout mConstraintLogout;
+    private FirebaseUser mPengguna;
+    private FirebaseAuth mAkunAuth;
+    private ImageView mLogoLogout;
+    private TextView mTextLogout;
+    private ImageView mImageLogout;
+    private ConstraintLayout mConstraintAkun;
+    private Handler mAkunHandler;
+    private ImageView mLogoPengaturan;
+    private TextView mTextPengaturan;
+    private ImageView mImagePengaturan;
+    private ConstraintLayout mContsraintPengaturan;
+    private ImageView mLogoProfil;
+    private TextView mTextProfil;
+    private ImageView mImageProfil;
+    private ConstraintLayout mConstraintProfil;
+    private ImageView mLogoShare;
+    private TextView mTextShare;
+    private ImageView mImageShare;
+    private ConstraintLayout mConstraintShare;
+    private ImageView mLogoBantuan;
+    private TextView mTextBantuan;
+    private ImageView mImageBantuan;
+    private ConstraintLayout mConstraintBantuan;
+    private ImageView mImageDetail;
+    private TextView mTextDetail;
+    private ImageView mLogoDetail;
+    private ConstraintLayout mConstraintDetail;
+    private CircleImageView mImageProfile;
+    private TextView mTextNama;
+    private TextView mTextAsal;
+    private FirebaseFirestore mFirestore;
+    private DocumentReference mProfilRef;
+    private String mCurrentId;
+    private static final String TAG = "AkunFragment";
+    private ShimmerFrameLayout summerAkun;
+    private DocumentReference mMainRef;
+
+    public AkunFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_akun, container, false);
+        mAkunAuth = FirebaseAuth.getInstance();
+        mPengguna = mAkunAuth.getCurrentUser();
+        if (mPengguna != null) {
+            initial();
+            setLogout();
+            setPengaturanAkun();
+            setShare();
+            setBantuan();
+            setPengaturanAplikasi();
+            setDetailProfil();
+            setProfile();
+            checkKelengkapanPengguna();
+        } else {
+            setToast(getString(R.string.tolong_masuk_terlebih_dahulu));
+            intentToLoginActivity();
+        }
+        return mView;
+    }
+
+    private void initial() {
+        mConstraintLogout = mView.findViewById(R.id.constraint_logout);
+        mLogoLogout = mView.findViewById(R.id.logo_logout);
+        mTextLogout = mView.findViewById(R.id.text_logout);
+        mImageLogout = mView.findViewById(R.id.image_logout);
+        mConstraintAkun = mView.findViewById(R.id.constraint_akun);
+        mAkunHandler = new Handler();
+        mLogoPengaturan = mView.findViewById(R.id.logo_pengaturan);
+        mTextPengaturan = mView.findViewById(R.id.text_pengaturan);
+        mImagePengaturan = mView.findViewById(R.id.image_pengaturan);
+        mContsraintPengaturan = mView.findViewById(R.id.contsraint_pengaturan);
+        mLogoProfil = mView.findViewById(R.id.logo_edit_profil);
+        mTextProfil = mView.findViewById(R.id.text_edit_profil);
+        mImageProfil = mView.findViewById(R.id.image_edit_profil);
+        mConstraintProfil = mView.findViewById(R.id.constraint_profile);
+        mLogoShare = mView.findViewById(R.id.logo_share);
+        mImageShare = mView.findViewById(R.id.image_share);
+        mTextShare = mView.findViewById(R.id.text_share);
+        mConstraintShare = mView.findViewById(R.id.constraint_share);
+        mLogoBantuan = mView.findViewById(R.id.logo_bantuan);
+        mImageBantuan = mView.findViewById(R.id.image_bantuan);
+        mTextBantuan = mView.findViewById(R.id.text_bantuan);
+        mConstraintBantuan = mView.findViewById(R.id.constraint_bantuan);
+        mImageDetail = mView.findViewById(R.id.image_detail);
+        mTextDetail = mView.findViewById(R.id.text_detail);
+        mLogoDetail = mView.findViewById(R.id.logo_detail);
+        mConstraintDetail = mView.findViewById(R.id.constraint_detail);
+        mImageProfile = mView.findViewById(R.id.image_akun);
+        mTextNama = mView.findViewById(R.id.text_nama);
+        mTextAsal = mView.findViewById(R.id.text_asal);
+        mFirestore = FirebaseFirestore.getInstance();
+        mCurrentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        summerAkun= mView.findViewById(R.id.shimmer_akun);
+
+    }
+
+    private void setLogout() {
+        mConstraintLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
+                builder.setTitle(getString(R.string.apa_kamu_yakin));
+                builder.setMessage(getString(R.string.keluar_dari_aplikasi));
+                builder.setPositiveButton(getString(R.string.keluar), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        LoginManager.getInstance().logOut();
+                        FirebaseAuth.getInstance().signOut();
+                        mAkunAuth.signOut();
+                        snackBar(getString(R.string.berhasil_keluar));
+                        mAkunHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                intentToMainActivity();
+                            }
+                        }, 1000);
+                    }
+                });
+                builder.setNegativeButton(getString(R.string.batal), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog= builder.create();
+                alertDialog.show();
+
+            }
+        });
+        mLogoLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
+                builder.setTitle(getString(R.string.apa_kamu_yakin));
+                builder.setMessage(getString(R.string.keluar_dari_aplikasi));
+                builder.setPositiveButton(getString(R.string.keluar), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAkunAuth.signOut();
+                        LoginManager.getInstance().logOut();
+                        snackBar(getString(R.string.berhasil_keluar));
+                        mAkunHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                intentToMainActivity();
+                            }
+                        }, 1000);
+                    }
+                });
+                builder.setNegativeButton(getString(R.string.batal), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog= builder.create();
+                alertDialog.show();
+
+            }
+        });
+        mTextLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
+                builder.setTitle(getString(R.string.apa_kamu_yakin));
+                builder.setMessage(getString(R.string.keluar_dari_aplikasi));
+                builder.setPositiveButton(getString(R.string.keluar), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAkunAuth.signOut();
+                        LoginManager.getInstance().logOut();
+                        snackBar(getString(R.string.berhasil_keluar));
+                        mAkunHandler.postDelayed(new Runnable() {
+                            @Override
+                            public vo

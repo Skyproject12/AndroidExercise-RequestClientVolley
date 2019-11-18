@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a3396312-4e8d-4c0f-9347-95514dd88ead" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3ifcool/nongkikuy/Preview/Main/Fragment/Akun/AkunFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3ifcool/nongkikuy/Preview/Main/Fragment/Akun/AkunFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3ifcool/nongkikuy/Preview/Main/Fragment/Beranda/BerandaFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3ifcool/nongkikuy/Preview/Main/Fragment/Beranda/BerandaFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3ifcool/nongkikuy/Preview/Main/Fragment/Kegiatan/KegiatanFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3ifcool/nongkikuy/Preview/Main/Fragment/Kegiatan/KegiatanFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3ifcool/nongkikuy/Preview/Main/Fragment/Terbaru/TerbaruFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3ifcool/nongkikuy/Preview/Main/Fragment/Terbaru/TerbaruFragment.java" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" 

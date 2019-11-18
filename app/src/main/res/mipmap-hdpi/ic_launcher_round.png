@@ -1,0 +1,118 @@
+package org.d3ifcool.nongkikuy.Preview.Main.Fragment.Kegiatan;
+
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.d3ifcool.nongkikuy.Data.Model.Kegiatan;
+import org.d3ifcool.nongkikuy.Preview.Login.LoginActivity;
+import org.d3ifcool.nongkikuy.Preview.SettingAccountPengguna.SettingAccountPenggunaActivity;
+import org.d3ifcool.nongkikuy.R;
+import org.d3ifcool.nongkikuy.Util.Static;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+public class KegiatanFragment extends Fragment {
+
+    private View mView;
+    private RecyclerView mRecyclerTerbaru;
+    private KegiatanSekarangAdapter mKegiatanSekarangAdapter;
+    private ArrayList<Kegiatan> mListSekarang;
+    private RecyclerView mRecyclerMingguan;
+    private KegiatanMingguanAdapter mKegiatanMingguanAdapter;
+    private ArrayList<Kegiatan> mListMingguan;
+    private Toolbar mToolbar;
+    private FirebaseFirestore mFirestore;
+    private String tanggalSekarang;
+    private ConstraintLayout mConstraintEmpty;
+    private TextView mTextTerbaru;
+    private FirebaseUser pengguna;
+    private Handler handler;
+    private ConstraintLayout constraintKegiatan;
+    private TextView textMinggu;
+    private ImageView mTextHapus;
+    private String idNongkrong;
+    private String pemberi;
+    private ArrayList<String> listHapus;
+    private DocumentReference mMainRef;
+    private static final String TAG = "KegiatanFragment";
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_kegiatan, container, false);
+        initial();
+        if (pengguna != null) {
+            setHeader();
+            setRecycler();
+            setTanggal();
+            checkKelengkapanPengguna();
+        } else {
+            Toast.makeText(getActivity(), "" + getString(R.string.masuk_untuk_mengakses_seluruh_fitur), Toast.LENGTH_SHORT).show();
+            intentToLogin();
+        }
+        return mView;
+
+    }
+
+    public void initial() {
+        mRecyclerTerbaru = mView.findViewById(R.id.recycler_kegiatan_terbaru);
+        mListSekarang = new ArrayList<>();
+        mRecyclerMingguan = mView.findViewById(R.id.recycler_kegiatan_mingguan);
+        mListMingguan = new ArrayList<>();
+        mToolbar = mView.findViewById(R.id.toolbar_kegiatan);
+        mFirestore = FirebaseFirestore.getInstance();
+        mConstraintEmpty = mView.findViewById(R.id.constraint_empty);
+        mTextTerbaru = mView.findViewById(R.id.text_terbaru);
+        pengguna = FirebaseAuth.getInstance().getCurrentUser();
+        handler = new Handler();
+        constraintKegiatan = mView.findViewById(R.id.constraint_kegiatan);
+        textMinggu = mView.findViewById(R.id.text_minggu);
+        listHapus= new ArrayList<>();
+
+    }
+
+    public void setHeader() {
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        LayoutInflater layoutInflater = (LayoutInflater) ((AppCompatActivity) getActivity()).getSystemService(

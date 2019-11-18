@@ -1,0 +1,60 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.mysqlvolley"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="15"
+8-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:5:5-66
+11-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:5:22-64
+12
+13    <application
+13-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:7:5-21:19
+14        android:allowBackup="true"
+14-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:8:9-35
+15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+15-->[androidx.core:core:1.1.0] C:\Users\LENOVO\.gradle\caches\transforms-2\files-2.1\f01b27bb220ecb79298884ef36a7a2fb\core-1.1.0\AndroidManifest.xml:24:18-86
+16        android:debuggable="true"
+17        android:icon="@mipmap/ic_launcher"
+17-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:9:9-43
+18        android:label="@string/app_name"
+18-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:10:9-41
+19        android:roundIcon="@mipmap/ic_launcher_round"
+19-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:11:9-54
+20        android:supportsRtl="true"
+20-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:12:9-35
+21        android:testOnly="true"
+22        android:theme="@style/AppTheme" >
+22-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:13:9-40
+23        <activity android:name="com.example.mysqlvolley.MainActivity" >
+23-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:14:9-20:20
+23-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:14:19-47
+24            <intent-filter>
+24-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:15:13-19:29
+25                <action android:name="android.intent.action.MAIN" />
+25-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:16:17-69
+25-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:16:25-66
+26
+27                <category android:name="android.intent.category.LAUNCHER" />
+27-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:18:17-77
+27-->D:\AndroidJava\Latihan\MysqlVolley\app\src\main\AndroidManifest.xml:18:27-74
+28            </intent-filter>
+29        </activity>
+30
+31        <provider
+31-->[com.squareup.picasso:picasso:2.71828] C:\Users\LENOVO\.gradle\caches\transforms-2\files-2.1\5ff8de5afc9c10401fa1e0f20d2ab243\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
+32            android:name="com.squareup.picasso.PicassoProvider"
+32-->[com.squareup.picasso:picasso:2.71828] C:\Users\LENOVO\.gradle\caches\transforms-2\files-2.1\5ff8de5afc9c10401fa1e0f20d2ab243\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
+33            android:authorities="com.example.mysqlvolley.com.squareup.picasso"
+33-->[com.squareup.picasso:picasso:2.71828] C:\Users\LENOVO\.gradle\caches\transforms-2\files-2.1\5ff8de5afc9c10401fa1e0f20d2ab243\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
+34            android:exported="false" />
+34-->[com.squareup.picasso:picasso:2.71828] C:\Users\LENOVO\.gradle\caches\transforms-2\files-2.1\5ff8de5afc9c10401fa1e0f20d2ab243\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
+35    </application>
+36
+37</manifest>
